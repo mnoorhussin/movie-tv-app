@@ -13,7 +13,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="App"> 
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
