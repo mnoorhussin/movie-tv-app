@@ -1,0 +1,50 @@
+.review-form {
+  background: #2c3e50;
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}
+
+.review-form h4 {
+  color: #00b8e6;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+}
+
+.rating-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.rating-input label {
+  color: #bdc3c7;
+  font-weight: 600;
+}
+
+.rating-input select {
+  padding: 0.5rem;
+  border: 2px solid #34495e;
+  border-radius: 6px;
+  background: #1a242f;
+  color: #ecf0f1;
+}
+
+.review-form textarea {
+  width: 100%;
+  padding: 1rem;
+  border: 2px solid #34495e;
+  border-radius: 8px;
+  background: #1a242f;
+  color: #ecf0f1;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.review-form textarea:focus {
+  outline: none;
+  border-color: #00b8e6;
+}

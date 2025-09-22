@@ -12,6 +12,10 @@ const api = axios.create({
   },
 });
 
+export const getSimilarMovies = (movieId) => {
+  return api.get(`/movie/${movieId}/similar`);
+};
+
 export const getGenres = () => {
   return api.get('/genre/movie/list');
 };
