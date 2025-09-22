@@ -1,4 +1,3 @@
-// File: src/services/firebaseService.js
 import { 
   collection, 
   addDoc, 
