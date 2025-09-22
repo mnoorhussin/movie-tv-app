@@ -1,0 +1,359 @@
+/* File: src/components/MovieCarousel.css */
+.movie-carousel {
+  position: relative;
+  margin: 2rem 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-header {
+  text-align: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #1a242f 0%, #2c3e50 100%);
+}
+
+.carousel-header h2 {
+  font-size: 2.5rem;
+  background: linear-gradient(45deg, #00b8e6, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.carousel-header p {
+  color: #bdc3c7;
+  font-size: 1.1rem;
+}
+
+.carousel-container {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  border-radius: 0 0 16px 16px;
+}
+
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.slide-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.slide-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.backdrop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 30, 0.9) 0%,
+    rgba(15, 23, 30, 0.7) 50%,
+    rgba(15, 23, 30, 0.4) 100%
+  );
+}
+
+.slide-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  gap: 3rem;
+}
+
+.movie-info {
+  flex: 1;
+  max-width: 600px;
+}
+
+.movie-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  line-height: 1.1;
+}
+
+.movie-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.movie-year,
+.movie-rating,
+.movie-quality,
+.movie-runtime {
+  background: rgba(0, 184, 230, 0.2);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid rgba(0, 184, 230, 0.3);
+}
+
+.movie-rating {
+  color: #f39c12;
+  background: rgba(243, 156, 18, 0.2);
+  border-color: rgba(243, 156, 18, 0.3);
+}
+
+.movie-genres {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.genre-tag {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.movie-overview {
+  color: #ecf0f1;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.movie-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.watch-now-btn,
+.trailer-btn {
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.watch-now-btn {
+  background: linear-gradient(45deg, #00b8e6, #00d4ff);
+  color: white;
+}
+
+.watch-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 184, 230, 0.4);
+}
+
+.trailer-btn {
+  background: transparent;
+  border: 2px solid #00b8e6;
+  color: #00b8e6;
+}
+
+.trailer-btn:hover {
+  background: #00b8e6;
+  color: white;
+}
+
+.movie-poster {
+  flex-shrink: 0;
+}
+
+.movie-poster img {
+  width: 300px;
+  height: 450px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.movie-poster:hover img {
+  transform: scale(1.05);
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 184, 230, 0.8);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-btn:hover {
+  background: rgba(0, 184, 230, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn-prev {
+  left: 20px;
+}
+
+.carousel-btn-next {
+  right: 20px;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 3;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: #00b8e6;
+  border-color: #00b8e6;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: #00b8e6;
+}
+
+.carousel-loading {
+  text-align: center;
+  padding: 4rem;
+  color: #00b8e6;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 184, 230, 0.3);
+  border-left: 4px solid #00b8e6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .slide-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .movie-title {
+    font-size: 2.5rem;
+  }
+  
+  .movie-poster img {
+    width: 250px;
+    height: 375px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: 600px;
+  }
+  
+  .movie-title {
+    font-size: 2rem;
+  }
+  
+  .movie-meta {
+    justify-content: center;
+  }
+  
+  .movie-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-container {
+    height: 500px;
+  }
+  
+  .movie-title {
+    font-size: 1.5rem;
+  }
+  
+  .movie-overview {
+    font-size: 1rem;
+  }
+  
+  .movie-poster img {
+    width: 200px;
+    height: 300px;
+  }
+}

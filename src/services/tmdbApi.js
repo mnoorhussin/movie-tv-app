@@ -44,6 +44,21 @@ export const discoverMovies = (filters = {}) => {
   return api.get('/discover/movie', { params });
 };
 
+
+
+export const getLatestMovies = (page = 1) => {
+  return api.get('/movie/now_playing', {
+    params: { page }
+  });
+};
+
+export const getUpcomingMovies = (page = 1) => {
+  return api.get('/movie/upcoming', {
+    params: { page }
+  });
+};
+
+
 export const getPopularMovies = (page = 1) => {
   return api.get('/movie/popular', {
     params: { page }

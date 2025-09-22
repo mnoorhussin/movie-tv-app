@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { discoverMovies } from '../services/tmdbApi';
+import MovieCarousel from '../components/MovieCarousel';
 import MovieCard from '../components/MovieCard';
 import MovieFilters from '../components/MovieFilters';
 import Pagination from '../components/Pagination';
@@ -17,10 +18,9 @@ function Home() {
     sortBy: 'popularity.desc'
   });
 
-  // Fetch movies when filters or page changes
   useEffect(() => {
     fetchMovies();
-  }, [currentPage, filters]); // Add filters to dependency array
+  }, [currentPage, filters]);
 
   const fetchMovies = async () => {
     try {
@@ -39,7 +39,6 @@ function Home() {
   };
 
   const handleFilterChange = (newFilters) => {
-    // Update filters state and reset to page 1
     setFilters(newFilters);
     setCurrentPage(1);
   };
@@ -49,23 +48,17 @@ function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (loading && currentPage === 1) {
-    return (
-      <div className="container">
-        <div className="loading">Loading Movies</div>
-      </div>
-    );
-  }
-
   return (
     <div className="home-page">
+      {/* Movie Carousel - Latest Releases */}
+      <MovieCarousel />
+      
       <div className="container">
         <div className="page-header">
           <h1>🎬 Discover Movies</h1>
           <p>Filter and find your perfect movie match</p>
         </div>
         
-        {/* Pass current filters as initialFilters to maintain state */}
         <MovieFilters 
           onFilterChange={handleFilterChange} 
           initialFilters={filters}
@@ -81,7 +74,6 @@ function Home() {
             <div className="movies-count">
               Showing {movies.length} movies
               {(filters.genre || filters.year || filters.rating) && ' (filtered)'}
-              {filters.sortBy !== 'popularity.desc' && ` • Sorted by ${filters.sortBy.includes('vote_average') ? 'Rating' : filters.sortBy.includes('release_date') ? 'Release Date' : 'Title'}`}
             </div>
             
             {loading && currentPage > 1 ? (

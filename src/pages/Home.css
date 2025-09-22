@@ -1,4 +1,36 @@
 .home-page {
+  padding: 0;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding: 3rem 0 2rem;
+}
+
+.page-header h1 {
+  font-size: 3rem;
+  background: linear-gradient(45deg, #00b8e6, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.page-header p {
+  font-size: 1.2rem;
+  color: #bdc3c7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.home-page {
   padding: 2rem 0;
 }
 
@@ -62,6 +94,9 @@
   60% { text-shadow: .25em 0 0 #00b8e6, .5em 0 0 rgba(0, 184, 230, 0); }
   80%, 100% { text-shadow: .25em 0 0 #00b8e6, .5em 0 0 #00b8e6; }
 }
+
+
+
 
 .loading-more {
   text-align: center;
