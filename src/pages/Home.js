@@ -1,4 +1,3 @@
-// File: src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { discoverMovies } from '../services/tmdbApi';
 import MovieCard from '../components/MovieCard';
@@ -11,11 +10,17 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({
+    genre: '',
+    year: '',
+    rating: '',
+    sortBy: 'popularity.desc'
+  });
 
+  // Fetch movies when filters or page changes
   useEffect(() => {
     fetchMovies();
-  }, [currentPage, filters]);
+  }, [currentPage, filters]); // Add filters to dependency array
 
   const fetchMovies = async () => {
     try {
@@ -34,8 +39,9 @@ function Home() {
   };
 
   const handleFilterChange = (newFilters) => {
+    // Update filters state and reset to page 1
     setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
+    setCurrentPage(1);
   };
 
   const handlePageChange = (page) => {
@@ -59,7 +65,11 @@ function Home() {
           <p>Filter and find your perfect movie match</p>
         </div>
         
-        <MovieFilters onFilterChange={handleFilterChange} />
+        {/* Pass current filters as initialFilters to maintain state */}
+        <MovieFilters 
+          onFilterChange={handleFilterChange} 
+          initialFilters={filters}
+        />
         
         {!loading && movies.length === 0 ? (
           <div className="no-results">
@@ -70,20 +80,27 @@ function Home() {
           <>
             <div className="movies-count">
               Showing {movies.length} movies
-              {filters.genre || filters.year || filters.rating ? ' (filtered)' : ''}
+              {(filters.genre || filters.year || filters.rating) && ' (filtered)'}
+              {filters.sortBy !== 'popularity.desc' && ` • Sorted by ${filters.sortBy.includes('vote_average') ? 'Rating' : filters.sortBy.includes('release_date') ? 'Release Date' : 'Title'}`}
             </div>
             
-            <div className="grid">
-              {movies.map(movie => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
+            {loading && currentPage > 1 ? (
+              <div className="loading-more">Loading more movies...</div>
+            ) : (
+              <div className="grid">
+                {movies.map(movie => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </div>
+            )}
             
-            <Pagination 
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
+            {totalPages > 1 && (
+              <Pagination 
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            )}
           </>
         )}
       </div>

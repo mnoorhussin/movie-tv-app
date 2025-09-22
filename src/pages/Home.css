@@ -62,3 +62,43 @@
   60% { text-shadow: .25em 0 0 #00b8e6, .5em 0 0 rgba(0, 184, 230, 0); }
   80%, 100% { text-shadow: .25em 0 0 #00b8e6, .5em 0 0 #00b8e6; }
 }
+
+.loading-more {
+  text-align: center;
+  padding: 3rem;
+  color: #00b8e6;
+  font-size: 1.2rem;
+}
+
+.loading-more::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+.movies-count {
+  color: #bdc3c7;
+  font-size: 1rem;
+  margin: 1rem 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #34495e;
+  font-style: italic;
+}
+
+.no-results {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #bdc3c7;
+  background: rgba(52, 73, 94, 0.3);
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.no-results h3 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.no-results p {
+  font-size: 1.1rem;
+}

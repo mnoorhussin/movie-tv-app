@@ -1,4 +1,3 @@
-// File: src/components/MovieFilters.js
 import React, { useState, useEffect } from 'react';
 import { getGenres } from '../services/tmdbApi';
 import './MovieFilters.css';
@@ -10,8 +9,17 @@ function MovieFilters({ onFilterChange, initialFilters = {} }) {
     year: initialFilters.year || '',
     rating: initialFilters.rating || '',
     sortBy: initialFilters.sortBy || 'popularity.desc',
-    ...initialFilters
   });
+
+  // Update internal state when initialFilters prop changes
+  useEffect(() => {
+    setFilters({
+      genre: initialFilters.genre || '',
+      year: initialFilters.year || '',
+      rating: initialFilters.rating || '',
+      sortBy: initialFilters.sortBy || 'popularity.desc',
+    });
+  }, [initialFilters]);
 
   useEffect(() => {
     fetchGenres();
@@ -32,6 +40,7 @@ function MovieFilters({ onFilterChange, initialFilters = {} }) {
       [key]: value
     };
     setFilters(newFilters);
+    // Immediately notify parent of filter change
     onFilterChange(newFilters);
   };
 
