@@ -1,3 +1,4 @@
+// File: src/pages/Home.js
 import React, { useState, useEffect } from 'react';
 import { getPopularMovies } from '../services/tmdbApi';
 import MovieCard from '../components/MovieCard';
@@ -19,7 +20,7 @@ function Home() {
       setLoading(true);
       const response = await getPopularMovies(currentPage);
       setMovies(response.data.results);
-      setTotalPages(response.data.total_pages);
+      setTotalPages(Math.min(response.data.total_pages, 500)); // TMDB limits to 500 pages
       setLoading(false);
     } catch (error) {
       console.error('Error fetching popular movies:', error);
@@ -29,25 +30,37 @@ function Home() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="container">
+        <div className="loading">Loading Popular Movies</div>
+      </div>
+    );
   }
 
   return (
-    <div className="container">
-      <h1>Popular Movies</h1>
-      <div className="grid">
-        {movies.map(movie => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
+    <div className="home-page">
+      <div className="container">
+        <div className="page-header">
+          <h1>🎉 Popular Movies</h1>
+          <p>Discover the most popular movies right now</p>
+        </div>
+        
+        <div className="grid">
+          {movies.map(movie => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+        
+        <Pagination 
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
-      <Pagination 
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
     </div>
   );
 }

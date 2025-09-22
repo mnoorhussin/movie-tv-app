@@ -20,16 +20,33 @@ function Header() {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
-            MovieDB
+            <div className="logo-icon">🎬</div>
+            <span className="logo-text">MovieDB</span>
           </Link>
+          
           <nav className="nav">
-            <Link to="/">Home</Link>
-            <Link to="/search">Search</Link>
-            <Link to="/favorites">Favorites</Link>
+            <Link to="/" className="nav-link">Home</Link>
+            <Link to="/search" className="nav-link">Search</Link>
+            <Link to="/favorites" className="nav-link">Favorites</Link>
           </nav>
-          <button onClick={handleAuth} className="btn">
-            {currentUser ? 'Logout' : 'Login with Google'}
-          </button>
+
+          <div className="header-actions">
+            {currentUser ? (
+              <div className="user-info">
+                <img 
+                  src={currentUser.photoURL || '/placeholder-person.png'} 
+                  alt={currentUser.displayName} 
+                  className="user-avatar"
+                />
+                <span className="user-name">Hi, {currentUser.displayName?.split(' ')[0]}</span>
+                <button onClick={handleAuth} className="btn btn-outline">Logout</button>
+              </div>
+            ) : (
+              <button onClick={handleAuth} className="btn btn-primary">
+                Login with Google
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </header>
