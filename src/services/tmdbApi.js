@@ -12,6 +12,38 @@ const api = axios.create({
   },
 });
 
+export const getGenres = () => {
+  return api.get('/genre/movie/list');
+};
+
+export const discoverMovies = (filters = {}) => {
+  const params = {
+    page: filters.page || 1,
+    sort_by: filters.sortBy || 'popularity.desc',
+    ...filters
+  };
+
+  // Remove our custom filter keys and handle TMDB-specific parameters
+  if (filters.genre) {
+    params.with_genres = filters.genre;
+  }
+  if (filters.year) {
+    params.primary_release_year = filters.year;
+  }
+  if (filters.rating) {
+    params['vote_average.gte'] = filters.rating;
+  }
+
+  // Remove our custom keys
+  delete params.genre;
+  delete params.year;
+  delete params.rating;
+  delete params.sortBy;
+  delete params.page;
+
+  return api.get('/discover/movie', { params });
+};
+
 export const getPopularMovies = (page = 1) => {
   return api.get('/movie/popular', {
     params: { page }

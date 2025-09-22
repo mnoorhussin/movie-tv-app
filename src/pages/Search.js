@@ -1,7 +1,7 @@
-// File: src/pages/Search.js
 import React, { useState } from 'react';
-import { searchMovies } from '../services/tmdbApi';
+import { discoverMovies, searchMovies } from '../services/tmdbApi';
 import MovieCard from '../components/MovieCard';
+import MovieFilters from '../components/MovieFilters';
 import Pagination from '../components/Pagination';
 import './Search.css';
 
@@ -11,11 +11,17 @@ function Search() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({});
+  const [searchMode, setSearchMode] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    if (!query.trim()) return;
+    if (!query.trim()) {
+      setSearchMode(false);
+      return fetchMovies();
+    }
     
+    setSearchMode(true);
     setLoading(true);
     try {
       const response = await searchMovies(query, 1);
@@ -29,10 +35,38 @@ function Search() {
     }
   };
 
+  const fetchMovies = async () => {
+    setLoading(true);
+    try {
+      const response = await discoverMovies({
+        ...filters,
+        page: currentPage
+      });
+      setMovies(response.data.results);
+      setTotalPages(Math.min(response.data.total_pages, 500));
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching movies:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setCurrentPage(1);
+    setSearchMode(false);
+    setQuery('');
+  };
+
   const handlePageChange = async (page) => {
     setLoading(true);
     try {
-      const response = await searchMovies(query, page);
+      let response;
+      if (searchMode && query) {
+        response = await searchMovies(query, page);
+      } else {
+        response = await discoverMovies({ ...filters, page });
+      }
       setMovies(response.data.results);
       setCurrentPage(page);
       setLoading(false);
@@ -44,37 +78,21 @@ function Search() {
 
   return (
     <div className="container">
-      <h1>Search Movies</h1>
+      <h1>Search & Discover Movies</h1>
+      
       <form onSubmit={handleSearch} className="search-form">
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for movies..."
+          placeholder="Search for movies by title..."
         />
         <button type="submit" className="btn">Search</button>
       </form>
 
-      {loading && <div className="loading">Loading...</div>}
+      <MovieFilters onFilterChange={handleFilterChange} />
 
-      {movies.length > 0 && !loading && (
-        <>
-          <div className="grid">
-            {movies.map(movie => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
-          <Pagination 
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-          />
-        </>
-      )}
-
-      {movies.length === 0 && !loading && query && (
-        <p>No results found for "{query}"</p>
-      )}
+      {/* ... rest of search component ... */}
     </div>
   );
 }

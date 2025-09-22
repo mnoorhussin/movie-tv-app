@@ -1,7 +1,8 @@
 // File: src/pages/Home.js
 import React, { useState, useEffect } from 'react';
-import { getPopularMovies } from '../services/tmdbApi';
+import { discoverMovies } from '../services/tmdbApi';
 import MovieCard from '../components/MovieCard';
+import MovieFilters from '../components/MovieFilters';
 import Pagination from '../components/Pagination';
 import './Home.css';
 
@@ -10,22 +11,31 @@ function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({});
 
   useEffect(() => {
     fetchMovies();
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   const fetchMovies = async () => {
     try {
       setLoading(true);
-      const response = await getPopularMovies(currentPage);
+      const response = await discoverMovies({
+        ...filters,
+        page: currentPage
+      });
       setMovies(response.data.results);
-      setTotalPages(Math.min(response.data.total_pages, 500)); // TMDB limits to 500 pages
+      setTotalPages(Math.min(response.data.total_pages, 500));
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching popular movies:', error);
+      console.error('Error fetching movies:', error);
       setLoading(false);
     }
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    setCurrentPage(1); // Reset to first page when filters change
   };
 
   const handlePageChange = (page) => {
@@ -33,10 +43,10 @@ function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (loading) {
+  if (loading && currentPage === 1) {
     return (
       <div className="container">
-        <div className="loading">Loading Popular Movies</div>
+        <div className="loading">Loading Movies</div>
       </div>
     );
   }
@@ -45,21 +55,37 @@ function Home() {
     <div className="home-page">
       <div className="container">
         <div className="page-header">
-          <h1>🎉 Popular Movies</h1>
-          <p>Discover the most popular movies right now</p>
+          <h1>🎬 Discover Movies</h1>
+          <p>Filter and find your perfect movie match</p>
         </div>
         
-        <div className="grid">
-          {movies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+        <MovieFilters onFilterChange={handleFilterChange} />
         
-        <Pagination 
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {!loading && movies.length === 0 ? (
+          <div className="no-results">
+            <h3>No movies found</h3>
+            <p>Try adjusting your filters to see more results.</p>
+          </div>
+        ) : (
+          <>
+            <div className="movies-count">
+              Showing {movies.length} movies
+              {filters.genre || filters.year || filters.rating ? ' (filtered)' : ''}
+            </div>
+            
+            <div className="grid">
+              {movies.map(movie => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+            
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </>
+        )}
       </div>
     </div>
   );
