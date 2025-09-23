@@ -104,6 +104,7 @@
   line-height: 1.1;
 }
 
+
 .movie-meta {
   display: flex;
   align-items: center;
@@ -128,6 +129,11 @@
   color: #f39c12;
   background: rgba(243, 156, 18, 0.2);
   border-color: rgba(243, 156, 18, 0.3);
+}
+
+
+.movie-year {
+margin-top: 15px;
 }
 
 .movie-genres {

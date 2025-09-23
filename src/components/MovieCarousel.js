@@ -168,7 +168,7 @@ function MovieCarousel() {
   );
 }
 
-// Helper function to get genre names (you might want to move this to a context)
+// Helper function to get genre names from genre IDs
 const getGenreName = (genreId) => {
   const genreMap = {
     28: 'Action', 12: 'Adventure', 16: 'Animation', 35: 'Comedy',

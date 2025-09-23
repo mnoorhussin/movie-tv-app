@@ -26,15 +26,37 @@ function MovieCard({ movie }) {
         await addToFavorites(currentUser.uid, movie);
         movie.isFavorite = true;
       }
-      // Force re-render by toggling a state if needed in parent component
     } catch (error) {
       console.error('Error handling favorite:', error);
     }
   };
 
+  const getYear = (releaseDate) => {
+    return releaseDate ? new Date(releaseDate).getFullYear() : 'N/A';
+  };
+
+  const getRating = (voteAverage) => {
+    return voteAverage ? voteAverage.toFixed(1) : 'N/A';
+  };
+
   return (
     <div className="movie-card">
-      <Link to={`/movie/${movie.id}`}>
+      <Link to={`/movie/${movie.id}`} className="movie-card-link">
+        {/* Rating in top left corner */}
+        <div className="movie-rating-badge">
+          ⭐ {getRating(movie.vote_average)}
+        </div>
+        
+        {/* Favorite button in top right corner */}
+        {currentUser && (
+          <button 
+            className={`favorite-btn ${movie.isFavorite ? 'favorited' : ''}`}
+            onClick={handleFavorite}
+          >
+            {movie.isFavorite ? '❤️' : '🤍'}
+          </button>
+        )}
+        
         <img 
           src={getImageUrl(movie.poster_path)} 
           alt={movie.title}
@@ -42,20 +64,13 @@ function MovieCard({ movie }) {
             e.target.src = '/placeholder-movie.png';
           }}
         />
+        
         <div className="movie-card-content">
+          {/* Title */}
           <h3 className="movie-title">{movie.title}</h3>
-          <p className="movie-year">{movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A'}</p>
-          <div className="movie-rating">
-            <span>⭐ {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
-          </div>
-          {currentUser && (
-            <button 
-              className={`favorite-btn ${movie.isFavorite ? 'favorited' : ''}`}
-              onClick={handleFavorite}
-            >
-              {movie.isFavorite ? '❤️' : '🤍'}
-            </button>
-          )}
+          
+          {/* Year as a badge like rating */}
+          <div className="movie-year-badge">{getYear(movie.release_date)}</div>
         </div>
       </Link>
     </div>
